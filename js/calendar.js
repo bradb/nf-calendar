@@ -1,12 +1,12 @@
 var Calendar = {
   renderRow: function(table, hour, minute, numDays) {
-    var row = table.appendChild(document.createElement("tr")),
+    var row = table.insertRow(),
         cell,
         timeslot;
 
     row.dataset.hour = hour;
     row.dataset.minute = minute;
-    timeslot = row.appendChild(document.createElement('td'));
+    timeslot = row.insertCell();
     timeslot.className = 'timeslot';
     if (minute === 0) {
       timeslot.appendChild(
@@ -14,7 +14,7 @@ var Calendar = {
     }
 
     for (d = 0; d < numDays; d++) {
-        cell = row.appendChild(document.createElement("td"));
+        cell = row.insertCell();
         cell.dataset.day = d;
     }
   },
@@ -39,7 +39,7 @@ var Calendar = {
 
   renderHeader: function(table, numDays) {
     var thead = table.createTHead(),
-        row = thead.appendChild(document.createElement('tr')),
+        row = thead.insertRow(),
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         th;
 
@@ -52,17 +52,17 @@ var Calendar = {
   },
 
   showCalendar: function (containerId, numTimeslots, numDays) {
-    var container = document.getElementById(containerId);
-    var table = this.renderTable(container);
+    var container = document.getElementById(containerId),
+        table = this.renderTable(container),
+        hour = 0,
+        minute = 0;
 
     this.renderHeader(table, numDays);
 
-    var hour = 0,
-        minute = 0,
-        tbody = table.appendChild(document.createElement('tbody'));
+    var tBody = table.createTBody();
 
     for(r = 0; r <= numTimeslots; r++) {
-        this.renderRow(tbody, hour, minute, numDays);
+        this.renderRow(tBody, hour, minute, numDays);
         minute += 15;
         if (minute > 45) { minute = 0; }
         if (minute === 0) { hour += 1; }
