@@ -1,26 +1,39 @@
-.calendar td {
-    border-width: 0px 1px 0px 0px;
+.calendar {
+  margin: auto;
+}
+
+.calendar th {
+  color: #cccccc;
+  font-family: Arial;
+  font-weight: normal;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding-bottom: 3px;
+}
+
+.calendar tbody td {
+    border-width: 0px 1px 1px 0px;
     border-style: solid;
     border-color: #cccccc;
-    width: 70px;
-    height: 20px;
+    width: 120px;
+    height: 30px;
     padding: 0;
 }
 
 .calendar tr:first-child td {
-    border-width: 1px 1px 0px 0px;
+    border-width: 1px 1px 1px 0px;
 }
 
 .calendar tr:not(:first-child) td:first-child {
-    border-width: 0px 1px 0px 1px;
+    border-width: 0px 1px 1px 1px;
 }
 
 .calendar tr:first-child td:first-child {
-    border-width: 1px 1px 0px 1px;
+    border-width: 1px 1px 1px 1px;
 }
 
 .calendar tr:first-child td:last-child {
-    border-width: 1px 1px 0px 0px;
+    border-width: 1px 1px 1px 0px;
 }
 
 .calendar tr:last-child td {
