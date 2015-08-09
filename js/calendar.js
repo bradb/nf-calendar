@@ -1,4 +1,4 @@
-var Calendar = {
+var calendar = {
   renderRow: function(table, hour, minute, numDays) {
     var row = table.insertRow(),
         cell,
