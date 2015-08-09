@@ -51,7 +51,7 @@ var Calendar = {
     }
   },
 
-  showCalendar: function (containerId, numTimeslots, numDays) {
+  calendar: function (containerId, numTimeslots, numDays) {
     var container = document.getElementById(containerId),
         table = this.renderTable(container),
         hour = 0,
@@ -67,5 +67,18 @@ var Calendar = {
         if (minute > 45) { minute = 0; }
         if (minute === 0) { hour += 1; }
     };
+
+    this.bindClickHandlers(table);
+  },
+
+  bindClickHandlers: function(table) {
+    var cells = table.getElementsByTagName("td");
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].addEventListener('click', this.handleCellClick)
+    }
+  },
+
+  handleCellClick: function() {
+    document.getElementsByClassName("modal-container")[0].style.display = 'block';
   }
 }
