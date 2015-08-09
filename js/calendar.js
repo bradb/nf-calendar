@@ -38,7 +38,7 @@ var Calendar = {
   },
 
   renderHeader: function(table, numDays) {
-    var thead = table.appendChild(document.createElement('thead')),
+    var thead = table.createTHead(),
         row = thead.appendChild(document.createElement('tr')),
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         th;
