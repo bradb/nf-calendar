@@ -1,13 +1,33 @@
 var Calendar = {
   renderRow: function(table, hour, minute, numDays) {
     var row = table.appendChild(document.createElement("tr")),
-        cell;
+        cell,
+        timeslot;
 
     row.dataset.hour = hour;
     row.dataset.minute = minute;
+    timeslot = row.appendChild(document.createElement('td'));
+    timeslot.className = 'timeslot';
+    if (minute === 0) {
+      timeslot.appendChild(
+        document.createTextNode(this.formatHour(hour)));
+    }
+
     for (d = 0; d < numDays; d++) {
         cell = row.appendChild(document.createElement("td"));
         cell.dataset.day = d;
+    }
+  },
+
+  formatHour: function(hour) {
+    if (hour == 0) {
+      return "Midnight";
+    } else if (hour < 12) {
+      return hour + " AM";
+    } else if (hour == 12) {
+      return "Noon";
+    } else {
+      return (hour - 12) + " PM";
     }
   },
 
@@ -22,6 +42,8 @@ var Calendar = {
         row = thead.appendChild(document.createElement('tr')),
         days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         th;
+
+    row.appendChild(document.createElement('th'));
 
     for (d = 0; d < numDays; d++) {
       th = row.appendChild(document.createElement('th'));
@@ -43,7 +65,7 @@ var Calendar = {
         this.renderRow(tbody, hour, minute, numDays);
         minute += 15;
         if (minute > 45) { minute = 0; }
-        if (minute == 0) { hour += 1; }
+        if (minute === 0) { hour += 1; }
     };
   }
 }
