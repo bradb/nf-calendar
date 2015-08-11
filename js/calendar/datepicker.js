@@ -5,25 +5,6 @@ var datepicker = (function() {
     el.appendChild(document.createTextNode(' '));
   }
 
-  var createOption = function(value, label) {
-    var opt = document.createElement('option');
-    opt.value = value;
-    opt.label = label;
-
-    return opt;
-  }
-
-  var createSelect = function(name, options) {
-    var select = document.createElement('select');
-    select.name = name;
-
-    for (var i = 0; i < options.length; i++) {
-      select.add(createOption(options[i][0], options[i][1]));
-    }
-
-    return select;
-  }
-
   var addMonthSelect = function(containerEl) {
     const months = [
       'January', 'February', 'March', 'April', 'May', 'June',
@@ -31,7 +12,7 @@ var datepicker = (function() {
     ];
 
     containerEl.appendChild(
-      createSelect(
+      selectWidget.createSelect(
         'month', months.map(function(v, i) { return [i + 1, v] } )
       )
     );
@@ -43,7 +24,7 @@ var datepicker = (function() {
       days.push([i + 1, i + 1]);
     }
 
-    containerEl.appendChild(createSelect('day', days));
+    containerEl.appendChild(selectWidget.createSelect('day', days));
   };
 
   var addYearSelect = function (containerEl) {
@@ -54,7 +35,7 @@ var datepicker = (function() {
       years.push([i, i]);
     }
 
-    containerEl.appendChild(createSelect('year', years));
+    containerEl.appendChild(selectWidget.createSelect('year', years));
   };
 
   var datepicker = function(selectorId) {
