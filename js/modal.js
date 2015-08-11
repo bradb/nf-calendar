@@ -1,4 +1,6 @@
 var modal = (function() {
+  'use strict';
+
   var modalEl;
 
   var closeModal = function() {
