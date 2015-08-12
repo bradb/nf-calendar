@@ -59,7 +59,7 @@ div#calendar-container table thead th {
 }
 
 .calendar {
-  color: #cccccc;
+  color: #777777;
   font-weight: normal;
   font-size: 14px;
   text-transform: uppercase;
@@ -118,7 +118,7 @@ div#calendar-container table thead th {
   border: 0;
   border-right: 1px solid #cccccc;
   font-family: Arial;
-  color: #cccccc;
+  color: #777777;
 }
 
 form {

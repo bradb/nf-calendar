@@ -39,12 +39,41 @@ var calendar = (function() {
     return table;
   };
 
+  var createTimeframeSelectorColumn = function() {
+    var timeframeSelectorColumn = document.createElement('th'),
+        timeframeSelector = document.createElement('h2');
+
+    timeframeSelector.appendChild(document.createTextNode('August 9 - 15, 2015'));
+
+    timeframeSelectorColumn.appendChild(timeframeSelector);
+    timeframeSelectorColumn.colSpan = 7;
+    timeframeSelectorColumn.style.width = '840px';
+    timeframeSelectorColumn.style.textAlign = 'center';
+
+    return timeframeSelectorColumn;
+  };
+
+  var createTimeframeSelector = function(row) {
+    var blankColumn,
+        timeframeSelector;
+
+    blankColumn = document.createElement('th');
+    blankColumn.colSpan = 1;
+
+    row.appendChild(blankColumn);
+    row.appendChild(createTimeframeSelectorColumn());
+  };
+
   var renderHeader = function(table, numDays) {
     var thead = table.createTHead(),
-        row = thead.insertRow(),
-        days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        row,
         th;
 
+    row = thead.insertRow();
+    createTimeframeSelector(row);
+
+    row = thead.insertRow();
     row.appendChild(document.createElement('th'));
 
     for (var d = 0; d < numDays; d++) {
