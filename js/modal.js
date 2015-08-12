@@ -14,7 +14,7 @@ var modal = (function() {
   };
 
   var handleEscCancel = function(event) {
-    if (event.keyCode == 27) {
+    if (event.keyCode === 27) {
       closeModal();
     }
   };

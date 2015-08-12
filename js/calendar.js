@@ -22,11 +22,11 @@ var calendar = (function() {
   };
 
   var formatHour = function(hour) {
-    if (hour == 0) {
+    if (hour === 0) {
       return "Midnight";
     } else if (hour < 12) {
       return hour + " AM";
-    } else if (hour == 12) {
+    } else if (hour === 12) {
       return "Noon";
     } else {
       return (hour - 12) + " PM";
