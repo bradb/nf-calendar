@@ -1,6 +1,13 @@
 var calendar = (function() {
   'use strict';
 
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const oneDay = (1000 * 60 * 60 * 24);
+
   var renderRow = function(table, hour, minute, numDays) {
     var row = table.insertRow(),
         cell,
@@ -39,11 +46,58 @@ var calendar = (function() {
     return table;
   };
 
-  var createTimeframeSelectorColumn = function() {
+  var getPeriodStartDate = function(selectedDate) {
+    var dayOfWeek = selectedDate.getDay();
+    if (dayOfWeek === 0) {
+      return selectedDate;
+    } else {
+      return new Date(selectedDate.valueOf() - (dayOfWeek * oneDay));
+    }
+  };
+
+  var getPeriodEndDate = function(selectedDate) {
+    var dayOfWeek = selectedDate.getDay();
+    if (dayOfWeek === 6) {
+      return selectedDate;
+    } else {
+      return new Date(selectedDate.valueOf() + ((6 - dayOfWeek) * oneDay));
+    }
+  };
+
+  var formatDate = function(date) {
+    return dateMonth(date) + ' ' + dateDay(date) + ', ' + dateYear(date);
+  };
+
+  var dateYear = function(date) {
+    return date.getFullYear();
+  }
+
+  var dateMonth = function(date) {
+    return months[date.getMonth()].substr(0, 3);
+  };
+
+  var dateDay = function(date) {
+    var calDate = date.getDate();
+    if (calDate < 10) {
+      return '0' + calDate.toString();
+    } else {
+      return calDate.toString();
+    }
+  };
+
+  var formatTimeframeDates = function(startDate, endDate) {
+    return formatDate(startDate) + ' - ' + formatDate(endDate);
+  }
+
+  var createTimeframeSelectorColumn = function(selectedDate) {
     var timeframeSelectorColumn = document.createElement('th'),
         timeframeSelector = document.createElement('h2');
 
-    timeframeSelector.appendChild(document.createTextNode('August 9 - 15, 2015'));
+    timeframeSelector.appendChild(
+      document.createTextNode(
+        formatTimeframeDates(
+          getPeriodStartDate(selectedDate),
+          getPeriodEndDate(selectedDate))));
 
     timeframeSelectorColumn.appendChild(timeframeSelector);
     timeframeSelectorColumn.colSpan = 7;
@@ -61,7 +115,7 @@ var calendar = (function() {
     blankColumn.colSpan = 1;
 
     row.appendChild(blankColumn);
-    row.appendChild(createTimeframeSelectorColumn());
+    row.appendChild(createTimeframeSelectorColumn(new Date()));
   };
 
   var renderHeader = function(table, numDays) {
