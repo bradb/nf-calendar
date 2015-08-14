@@ -9,8 +9,9 @@ var selectWidget = (function() {
     return opt;
   };
 
-  var createSelect = function(name, options) {
+  var createSelect = function(id, name, options) {
     var select = document.createElement('select');
+    select.id = id;
     select.name = name;
 
     for (var i = 0; i < options.length; i++) {

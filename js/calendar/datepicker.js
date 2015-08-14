@@ -13,7 +13,7 @@ var datepicker = (function() {
 
     containerEl.appendChild(
       selectWidget.createSelect(
-        'month', months.map(function(v, i) { return [i + 1, v] } )
+        'date-month', 'date-month-', months.map(function(v, i) { return [i + 1, v] } )
       )
     );
   };
@@ -24,7 +24,8 @@ var datepicker = (function() {
       days.push([i + 1, i + 1]);
     }
 
-    containerEl.appendChild(selectWidget.createSelect('day', days));
+    containerEl.appendChild(
+      selectWidget.createSelect('date-day', 'date-day', days));
   };
 
   var addYearSelect = function (containerEl) {
@@ -35,7 +36,8 @@ var datepicker = (function() {
       years.push([i, i]);
     }
 
-    containerEl.appendChild(selectWidget.createSelect('year', years));
+    containerEl.appendChild(
+      selectWidget.createSelect('date-year', 'date-year', years));
   };
 
   var datepicker = function(selectorId) {

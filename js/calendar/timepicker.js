@@ -3,26 +3,36 @@ var timepicker = (function() {
 
   var formatNumber = function(n) {
     return (n < 10) ? '0' + n.toString() : n.toString();
-  }
+  };
 
   var timepicker = function(elId, prefix) {
     var select = document.getElementById(elId),
+        hour_id_and_name = prefix + '-hour',
+        minutes_id_and_name = prefix + '-minute',
+        ampm_id_and_name = prefix + '-ampm',
         hours = [],
-        minutes = [];
+        minutes = [],
+        i;
 
-    for (var i = 1; i <= 12; i++) {
+    for (i = 1; i <= 12; i++) {
       hours.push([i, formatNumber(i)]);
     }
 
-    for (var i = 0; i <= 59; i++) {
+    for (i = 0; i <= 59; i++) {
       minutes.push([i, formatNumber(i)]);
     }
 
-    select.appendChild(selectWidget.createSelect(prefix + '-hour', hours))
+    select.appendChild(
+      selectWidget.createSelect(
+        hour_id_and_name, hour_id_and_name, hours));
     select.appendChild(document.createTextNode(' : '));
-    select.appendChild(selectWidget.createSelect(prefix + '-minute', minutes));
+    select.appendChild(
+      selectWidget.createSelect(
+        minutes_id_and_name, minutes_id_and_name, minutes));
     select.appendChild(document.createTextNode(' '));
-    select.appendChild(selectWidget.createSelect(prefix + '-ampm', [['am', 'AM'], ['pm', 'PM']]))
+    select.appendChild(
+      selectWidget.createSelect(
+        ampm_id_and_name, ampm_id_and_name, [['am', 'AM'], ['pm', 'PM']]));
   };
 
   return { timepicker: timepicker };

@@ -181,6 +181,11 @@ var calendar = (function() {
         message: "Invalid timeframe: " + timeframe };
     }
 
+    modal.modal("appointment-modal");
+    datepicker.datepicker('datepicker');
+    timepicker.timepicker('start-time-picker', 'start');
+    timepicker.timepicker('end-time-picker', 'end');
+
     bindClickHandlers(table);
   };
 
@@ -191,7 +196,15 @@ var calendar = (function() {
     }
   };
 
-  var handleCellClick = function() {
+  var selectDay = function (day, month, year) {
+
+  };
+
+  var handleCellClick = function(event) {
+    var cell = event.target;
+
+    selectDay(cell.dataset.day, cell.dataset.month, cell.dataset.year);
+
     document.getElementsByClassName("modal-container")[0].style.display = 'block';
   };
 
