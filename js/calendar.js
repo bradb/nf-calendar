@@ -46,7 +46,7 @@ var calendar = (function() {
     return table;
   };
 
-  var getPeriodStartDate = function(selectedDate) {
+  var getBeginningOfWeek = function(selectedDate) {
     var dayOfWeek = selectedDate.getDay();
     if (dayOfWeek === 0) {
       return selectedDate;
@@ -55,7 +55,7 @@ var calendar = (function() {
     }
   };
 
-  var getPeriodEndDate = function(selectedDate) {
+  var getEndOfWeek = function(selectedDate) {
     var dayOfWeek = selectedDate.getDay();
     if (dayOfWeek === 6) {
       return selectedDate;
@@ -89,15 +89,14 @@ var calendar = (function() {
     return formatDate(startDate) + ' - ' + formatDate(endDate);
   }
 
-  var createTimeframeSelectorColumn = function(selectedDate) {
+  var createWeekSelectorColumn = function(beginningOfWeek) {
     var timeframeSelectorColumn = document.createElement('th'),
         timeframeSelector = document.createElement('h2');
 
     timeframeSelector.appendChild(
       document.createTextNode(
         formatTimeframeDates(
-          getPeriodStartDate(selectedDate),
-          getPeriodEndDate(selectedDate))));
+          beginningOfWeek, getEndOfWeek(beginningOfWeek))));
 
     timeframeSelectorColumn.appendChild(timeframeSelector);
     timeframeSelectorColumn.colSpan = 7;
@@ -107,7 +106,7 @@ var calendar = (function() {
     return timeframeSelectorColumn;
   };
 
-  var createTimeframeSelector = function(row) {
+  var createWeekSelector = function(row, beginningOfWeek) {
     var blankColumn,
         timeframeSelector;
 
@@ -115,17 +114,17 @@ var calendar = (function() {
     blankColumn.colSpan = 1;
 
     row.appendChild(blankColumn);
-    row.appendChild(createTimeframeSelectorColumn(new Date()));
+    row.appendChild(createWeekSelectorColumn(beginningOfWeek));
   };
 
   var renderWeekHeader = function(table, selectedDate) {
     var thead = table.createTHead(),
         days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        beginningOfWeek = getBeginningOfWeek(selectedDate),
         row,
         th;
 
-    row = thead.insertRow();
-    createTimeframeSelector(row);
+    createWeekSelector(thead.insertRow(), beginningOfWeek);
 
     row = thead.insertRow();
     row.appendChild(document.createElement('th'));
