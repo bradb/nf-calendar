@@ -7,7 +7,7 @@ var selectWidget = (function() {
     opt.label = label;
 
     return opt;
-  }
+  };
 
   var createSelect = function(name, options) {
     var select = document.createElement('select');
@@ -18,7 +18,7 @@ var selectWidget = (function() {
     }
 
     return select;
-  }
+  };
 
   return { createSelect: createSelect };
-})()
+})();

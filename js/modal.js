@@ -22,8 +22,8 @@ var modal = (function() {
   var modal = function(elementId) {
     modalEl = document.getElementById(elementId);
     window.addEventListener('keydown', handleEscCancel);
-    modalEl.addEventListener('click', handleClickCancel)
+    modalEl.addEventListener('click', handleClickCancel);
   };
 
-  return { modal: modal }
-})()
+  return { modal: modal };
+})();

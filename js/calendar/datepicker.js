@@ -3,10 +3,10 @@ var datepicker = (function() {
 
   var insertSpace = function (el) {
     el.appendChild(document.createTextNode(' '));
-  }
+  };
 
   var addMonthSelect = function(containerEl) {
-    const months = [
+    var months = [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
@@ -49,4 +49,4 @@ var datepicker = (function() {
   };
 
   return { datepicker: datepicker };
-})()
+})();

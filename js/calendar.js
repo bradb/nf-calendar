@@ -1,12 +1,12 @@
 var calendar = (function() {
   'use strict';
 
-  const months = [
+  var months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  const oneDay = (1000 * 60 * 60 * 24);
+  var oneDay = (1000 * 60 * 60 * 24);
 
   var renderWeekRow = function(table, hour, minute) {
     var row = table.insertRow(),
@@ -55,6 +55,13 @@ var calendar = (function() {
     }
   };
 
+  var ddMM = function (date) {
+    var day = date.getDate(),
+        month = date.getMonth() + 1;
+
+    return zeroFill(day) + '/' + zeroFill(month);
+  };
+
   var getEndOfWeek = function(selectedDate) {
     var dayOfWeek = selectedDate.getDay();
     if (dayOfWeek === 6) {
@@ -65,29 +72,24 @@ var calendar = (function() {
   };
 
   var formatDate = function(date) {
-    return dateMonth(date) + ' ' + dateDay(date) + ', ' + dateYear(date);
+    return dateMonth(date) + ' ' + zeroFill(date.getDate()) + ', ' + dateYear(date);
   };
 
   var dateYear = function(date) {
     return date.getFullYear();
-  }
+  };
 
   var dateMonth = function(date) {
     return months[date.getMonth()].substr(0, 3);
   };
 
-  var dateDay = function(date) {
-    var calDate = date.getDate();
-    if (calDate < 10) {
-      return '0' + calDate.toString();
-    } else {
-      return calDate.toString();
-    }
+  var zeroFill = function(value) {
+    return (value < 10) ? '0' + value.toString() : value.toString();
   };
 
   var formatTimeframeDates = function(startDate, endDate) {
     return formatDate(startDate) + ' - ' + formatDate(endDate);
-  }
+  };
 
   var createWeekSelectorColumn = function(beginningOfWeek) {
     var timeframeSelectorColumn = document.createElement('th'),
@@ -117,6 +119,10 @@ var calendar = (function() {
     row.appendChild(createWeekSelectorColumn(beginningOfWeek));
   };
 
+  var addDays = function (date, days) {
+    return (new Date(date.valueOf() + (days * oneDay)));
+  };
+
   var renderWeekHeader = function(table, selectedDate) {
     var thead = table.createTHead(),
         days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -131,7 +137,9 @@ var calendar = (function() {
 
     for (var d = 0; d < days.length; d++) {
       th = row.appendChild(document.createElement('th'));
-      th.appendChild(document.createTextNode(days[d]));
+      th.appendChild(
+        document.createTextNode(
+          days[d] + ' ' + ddMM(addDays(beginningOfWeek, d))));
     }
   };
 
@@ -149,8 +157,8 @@ var calendar = (function() {
         minute += 15;
         if (minute > 45) { minute = 0; }
         if (minute === 0) { hour += 1; }
-    };
-  }
+    }
+  };
 
   var calendar = function (containerId, numTimeslots, selectedDate, timeframe) {
     var container = document.getElementById(containerId),
@@ -164,7 +172,7 @@ var calendar = (function() {
     } else {
       throw {
         name: 'ArgumentException',
-        message: "Invalid timeframe: " + timeframe }
+        message: "Invalid timeframe: " + timeframe };
     }
 
     bindClickHandlers(table);
@@ -173,7 +181,7 @@ var calendar = (function() {
   var bindClickHandlers = function(table) {
     var cells = table.getElementsByTagName("td");
     for (var i = 0; i < cells.length; i++) {
-      cells[i].addEventListener('click', handleCellClick)
+      cells[i].addEventListener('click', handleCellClick);
     }
   };
 
@@ -181,5 +189,5 @@ var calendar = (function() {
     document.getElementsByClassName("modal-container")[0].style.display = 'block';
   };
 
-  return { calendar: calendar }
+  return { calendar: calendar };
 })();
