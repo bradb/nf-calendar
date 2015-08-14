@@ -13,7 +13,8 @@
       window.addEventListener('DOMContentLoaded', function() {
         'use strict';
 
-        calendar.calendar('calendar-container', (24 * 4) - 1, 7);
+        calendar.calendar(
+          'calendar-container', (24 * 4) - 1, Date.now(), 'week');
         modal.modal("appointment-modal");
         datepicker.datepicker('datepicker');
         timepicker.timepicker('start-time-picker', 'start');

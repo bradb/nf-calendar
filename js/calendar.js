@@ -8,7 +8,7 @@ var calendar = (function() {
 
   const oneDay = (1000 * 60 * 60 * 24);
 
-  var renderRow = function(table, hour, minute, numDays) {
+  var renderWeekRow = function(table, hour, minute) {
     var row = table.insertRow(),
         cell,
         timeslot;
@@ -22,7 +22,7 @@ var calendar = (function() {
         document.createTextNode(formatHour(hour)));
     }
 
-    for (var d = 0; d < numDays; d++) {
+    for (var d = 0; d < 7; d++) {
         cell = row.insertCell();
         cell.dataset.day = d;
     }
@@ -118,7 +118,7 @@ var calendar = (function() {
     row.appendChild(createTimeframeSelectorColumn(new Date()));
   };
 
-  var renderHeader = function(table, numDays) {
+  var renderWeekHeader = function(table, selectedDate) {
     var thead = table.createTHead(),
         days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         row,
@@ -130,28 +130,43 @@ var calendar = (function() {
     row = thead.insertRow();
     row.appendChild(document.createElement('th'));
 
-    for (var d = 0; d < numDays; d++) {
+    for (var d = 0; d < days.length; d++) {
       th = row.appendChild(document.createElement('th'));
       th.appendChild(document.createTextNode(days[d]));
     }
   };
 
-  var calendar = function (containerId, numTimeslots, numDays) {
-    var container = document.getElementById(containerId),
-        table = renderTable(container),
-        hour = 0,
-        minute = 0;
+  var renderWeekView = function (table, selectedDate, numTimeslots) {
+    var hour = 0,
+        minute = 0,
+        tBody;
 
-    renderHeader(table, numDays);
+    renderWeekHeader(table, selectedDate);
 
-    var tBody = table.createTBody();
+    tBody = table.createTBody();
 
     for(var r = 0; r <= numTimeslots; r++) {
-        renderRow(tBody, hour, minute, numDays);
+        renderWeekRow(tBody, hour, minute);
         minute += 15;
         if (minute > 45) { minute = 0; }
         if (minute === 0) { hour += 1; }
     };
+  }
+
+  var calendar = function (containerId, numTimeslots, selectedDate, timeframe) {
+    var container = document.getElementById(containerId),
+        table = renderTable(container),
+        tBody,
+        hour = 0,
+        minute = 0;
+
+    if (timeframe === 'week') {
+      renderWeekView(table, selectedDate, numTimeslots);
+    } else {
+      throw {
+        name: 'ArgumentException',
+        message: "Invalid timeframe: " + timeframe }
+    }
 
     bindClickHandlers(table);
   };
