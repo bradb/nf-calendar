@@ -8,8 +8,10 @@ var calendar = (function() {
 
   var oneDay = (1000 * 60 * 60 * 24);
 
-  var renderWeekRow = function(table, hour, minute) {
-    var row = table.insertRow(),
+  var renderWeekRow = function(table, selectedDate, hour, minute) {
+    var beginningOfWeek = getBeginningOfWeek(selectedDate),
+        row = table.insertRow(),
+        currentDay,
         cell,
         timeslot;
 
@@ -23,8 +25,12 @@ var calendar = (function() {
     }
 
     for (var d = 0; d < 7; d++) {
-        cell = row.insertCell();
-        cell.dataset.day = d;
+      currentDay = addDays(beginningOfWeek, d);
+
+      cell = row.insertCell();
+      cell.dataset.day = currentDay.getDate();
+      cell.dataset.month = currentDay.getMonth() + 1;
+      cell.dataset.year = currentDay.getFullYear();
     }
   };
 
@@ -153,7 +159,7 @@ var calendar = (function() {
     tBody = table.createTBody();
 
     for(var r = 0; r <= numTimeslots; r++) {
-        renderWeekRow(tBody, hour, minute);
+        renderWeekRow(tBody, selectedDate, hour, minute);
         minute += 15;
         if (minute > 45) { minute = 0; }
         if (minute === 0) { hour += 1; }
