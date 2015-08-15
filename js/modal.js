@@ -7,6 +7,10 @@ var modal = (function() {
         '<div class="modal-form">' +
           '<h2>Appointment Date &amp; Time</h2>' +
           '<form action="#" method="post">' +
+            '<div class="fields">' +
+              '<h4>Title</h4>' +
+              '<input type="text" id="event-title" name="event-title">' +
+            '</div>' +
             '<div class="datepicker-container">' +
               '<h4>Day</h4>' +
               '<div id="datepicker"></div>' +
@@ -18,6 +22,10 @@ var modal = (function() {
             '<div class="end-time-container">' +
               '<h4>End Time</h4>' +
               '<div id="end-time-picker"></div>' +
+            '</div>' +
+            '<div class="fields">' +
+              '<h4>Attendees</h4>' +
+              '<input type="text" placeholder="Enter a name or email..." id="event-attendee" name="event-attendee">' +
             '</div>' +
             '<div class="buttons">' +
               '<a class="button" href="#">Book Appointment</a>' +

@@ -2,6 +2,18 @@ body {
   font-family: Arial;
 }
 
+input[type=text] {
+  padding: 5px;
+}
+
+#event-title {
+  width: 350px;
+}
+
+#event-attendee {
+  width: 250px;
+}
+
 div#calendar-container {
   position: absolute;
   top: 60px;
