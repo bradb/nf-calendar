@@ -6,17 +6,16 @@ var calendar = (function() {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  var oneDay = (1000 * 60 * 60 * 24);
+  var oneHour = (1000 * 60 * 60);
+  var oneDay = oneHour * 24;
 
   var renderWeekRow = function(table, selectedDate, hour, minute) {
     var beginningOfWeek = getBeginningOfWeek(selectedDate),
         row = table.insertRow(),
         currentDay,
-        cell,
+        cellData,
         timeslot;
 
-    row.dataset.hour = hour;
-    row.dataset.minute = minute;
     timeslot = row.insertCell();
     timeslot.className = 'timeslot';
     if (minute === 0) {
@@ -27,10 +26,13 @@ var calendar = (function() {
     for (var d = 0; d < 7; d++) {
       currentDay = addDays(beginningOfWeek, d);
 
-      cell = row.insertCell();
-      cell.dataset.day = currentDay.getDate();
-      cell.dataset.month = currentDay.getMonth() + 1;
-      cell.dataset.year = currentDay.getFullYear();
+      cellData = row.insertCell().dataset;
+
+      cellData.hour = hour;
+      cellData.minute = minute;
+      cellData.day = currentDay.getDate();
+      cellData.month = currentDay.getMonth() + 1;
+      cellData.year = currentDay.getFullYear();
     }
   };
 
@@ -195,7 +197,15 @@ var calendar = (function() {
   var bindClickHandlers = function(table, datePrefix, startTimePrefix, endTimePrefix) {
     var cells = table.getElementsByTagName("td"),
         clickHandler = function(event) {
-          handleCellClick(event, datePrefix, startTimePrefix, endTimePrefix);
+          var celldata = event.target.dataset,
+              selectedDate = new Date(
+                celldata.year,
+                celldata.month,
+                celldata.day,
+                celldata.hour,
+                celldata.minute);
+
+          handleCellClick(event, selectedDate, datePrefix, startTimePrefix, endTimePrefix);
         };
 
     for (var i = 0; i < cells.length; i++) {
@@ -203,15 +213,36 @@ var calendar = (function() {
     }
   };
 
-  var selectDay = function (day, month, year) {
-
+  var selectDay = function (datePrefix, day, month, year) {
+    document.getElementById(datePrefix + '-day').value = day;
+    document.getElementById(datePrefix + '-month').value = month;
+    document.getElementById(datePrefix + '-year').value = year;
   };
 
-  var handleCellClick = function(event) {
-    var cell = event.target;
+  var selectTime = function (prefix, selectedDate) {
+    var selectedHour = function (h) {
+      if (h === 0) {
+        return 12;
+      } else if (h > 12) {
+        return h - 12;
+      } else {
+        return h;
+      }
+    };
 
-    selectDay(cell.dataset.day, cell.dataset.month, cell.dataset.year);
+    var ampm = function (h) {
+      return h < 12 ? 'am' : 'pm';
+    };
 
+    document.getElementById(prefix + '-hour').value = selectedHour(selectedDate.getHours());
+    document.getElementById(prefix + '-minute').value = selectedDate.getMinutes();
+    document.getElementById(prefix + '-ampm').value = ampm(selectedDate.getHours());
+  };
+
+  var handleCellClick = function(event, selectedDate, datePrefix, startTimePrefix, endTimePrefix) {
+    selectDay(datePrefix, selectedDate.getDate(), selectedDate.getMonth(), selectedDate.getFullYear());
+    selectTime(startTimePrefix, selectedDate);
+    selectTime(endTimePrefix, new Date(selectedDate.valueOf() + oneHour));
     document.getElementsByClassName("modal-container")[0].style.display = 'block';
   };
 
