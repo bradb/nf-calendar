@@ -169,9 +169,12 @@ var calendar = (function() {
   var calendar = function (containerId, numTimeslots, selectedDate, timeframe) {
     var container = document.getElementById(containerId),
         table = renderTable(container),
-        tBody,
+        datePrefix = 'date',
+        startTimePrefix = 'start',
+        endTimePrefix = 'end',
         hour = 0,
-        minute = 0;
+        minute = 0,
+        tBody;
 
     if (timeframe === 'week') {
       renderWeekView(table, selectedDate, numTimeslots);
@@ -182,17 +185,21 @@ var calendar = (function() {
     }
 
     modal.modal("appointment-modal");
-    datepicker.datepicker('datepicker');
-    timepicker.timepicker('start-time-picker', 'start');
-    timepicker.timepicker('end-time-picker', 'end');
+    datepicker.datepicker('datepicker', datePrefix);
+    timepicker.timepicker('start-time-picker', startTimePrefix);
+    timepicker.timepicker('end-time-picker', endTimePrefix);
 
-    bindClickHandlers(table);
+    bindClickHandlers(table, datePrefix, startTimePrefix, endTimePrefix);
   };
 
-  var bindClickHandlers = function(table) {
-    var cells = table.getElementsByTagName("td");
+  var bindClickHandlers = function(table, datePrefix, startTimePrefix, endTimePrefix) {
+    var cells = table.getElementsByTagName("td"),
+        clickHandler = function(event) {
+          handleCellClick(event, datePrefix, startTimePrefix, endTimePrefix);
+        };
+
     for (var i = 0; i < cells.length; i++) {
-      cells[i].addEventListener('click', handleCellClick);
+      cells[i].addEventListener('click', clickHandler);
     }
   };
 

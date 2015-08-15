@@ -5,49 +5,52 @@ var datepicker = (function() {
     el.appendChild(document.createTextNode(' '));
   };
 
-  var addMonthSelect = function(containerEl) {
+  var addMonthSelect = function(containerEl, prefix) {
     var months = [
       'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
+      'July', 'August', 'September', 'October', 'November', 'December'],
+      elId = prefix + '-month';
 
     containerEl.appendChild(
       selectWidget.createSelect(
-        'date-month', 'date-month-', months.map(function(v, i) { return [i + 1, v] } )
+        elId, elId, months.map(function(v, i) { return [i + 1, v] } )
       )
     );
   };
 
-  var addDaySelect = function(containerEl) {
-    var days = [];
+  var addDaySelect = function(containerEl, prefix) {
+    var days = [],
+        elId = prefix + '-day';
+
     for (var i = 0; i <= 31; i++) {
       days.push([i + 1, i + 1]);
     }
 
     containerEl.appendChild(
-      selectWidget.createSelect('date-day', 'date-day', days));
+      selectWidget.createSelect(elId, elId, days));
   };
 
-  var addYearSelect = function (containerEl) {
+  var addYearSelect = function (containerEl, prefix) {
     var years = [],
-        thisYear = (new Date()).getFullYear();
+        thisYear = (new Date()).getFullYear(),
+        elId = prefix + '-year';
 
     for (var i = thisYear - 1; i <= thisYear + 5; i++) {
       years.push([i, i]);
     }
 
     containerEl.appendChild(
-      selectWidget.createSelect('date-year', 'date-year', years));
+      selectWidget.createSelect(elId, elId, years));
   };
 
-  var datepicker = function(selectorId) {
-    var containerEl = document.getElementById(selectorId);
+  var datepicker = function(elId, prefix) {
+    var containerEl = document.getElementById(elId);
 
-    addMonthSelect(containerEl);
+    addMonthSelect(containerEl, prefix);
     insertSpace(containerEl);
-    addDaySelect(containerEl);
+    addDaySelect(containerEl, prefix);
     insertSpace(containerEl);
-    addYearSelect(containerEl);
+    addYearSelect(containerEl, prefix);
   };
 
   return { datepicker: datepicker };
