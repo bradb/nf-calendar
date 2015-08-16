@@ -52,22 +52,49 @@ var autocomplete = (function () {
     return event.keyCode === 40;
   };
 
-  var selectNextCompleteOption = function (sourceEl) {
-    var autocompleteList =
-      document.querySelector(".autocomplete-list[data-source='" + sourceEl.id + "']");
+  var upKeyPressed = function (event) {
+    return event.keyCode === 38;
+  };
 
+  var getAutocompleteList = function (sourceEl) {
+    return document.querySelector(".autocomplete-list[data-source='" + sourceEl.id + "']");
+  };
+
+  var selectNextCompleteOption = function (sourceEl) {
+    var autocompleteList = getAutocompleteList(sourceEl);
     if (autocompleteList && autocompleteList.querySelector('li')) {
       selectItem(getNextSelectableItem(autocompleteList));
     }
   };
 
+  var selectPreviousCompletionOption = function (sourceEl) {
+    var autocompleteList = getAutocompleteList(sourceEl);
+    if (autocompleteList && autocompleteList.querySelector('li')) {
+      selectItem(getPreviousSelectableItem(autocompleteList));
+    }
+  };
+
+  var getSelectedItem = function (list) {
+    return list.querySelector("li.selected");
+  };
+
   var getNextSelectableItem = function (list) {
-    var currentSelectedItem = list.querySelector("li.selected");
+    var currentSelectedItem = getSelectedItem(list);
 
     if (currentSelectedItem && currentSelectedItem.nextSibling) {
       return currentSelectedItem.nextSibling;
     } else {
       return list.querySelector('li:first-child');
+    }
+  };
+
+  var getPreviousSelectableItem = function (list) {
+    var currentSelectedItem = getSelectedItem(list);
+
+    if (currentSelectedItem && currentSelectedItem.previousSibling) {
+      return currentSelectedItem.previousSibling;
+    } else {
+      return list.querySelector('li:last-child');
     }
   };
 
@@ -95,6 +122,8 @@ var autocomplete = (function () {
       function(event) {
         if (downKeyPressed(event)) {
           selectNextCompleteOption(event.target);
+        } else if (upKeyPressed(event)) {
+          selectPreviousCompletionOption(event.target);
         }
       }
     );
