@@ -10,3 +10,7 @@ ul.autocomplete-list li {
   margin: 0;
   padding: 5px;
 }
+
+ul.autocomplete-list li:not(:first-child) {
+  border-width: 0px 1px 1px 1px;
+}

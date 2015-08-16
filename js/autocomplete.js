@@ -24,7 +24,8 @@ var autocomplete = (function () {
   };
 
   var showCompleteOptions = function (sourceEl, searchText, options) {
-    var list = document.createElement('ul');
+    var list = document.createElement('ul'),
+        searchTextLowerCase = searchText.toLowerCase();
 
     removeExistingCompletionList(sourceEl);
     if (!searchText) {
@@ -36,7 +37,12 @@ var autocomplete = (function () {
     list.style.width = sourceEl.offsetWidth.toString() + 'px';
 
     options.forEach(function (opt) {
-      list.appendChild(createOption(opt[0], opt[1]));
+      var value = opt[0],
+          label = opt[1];
+
+      if (label.toLowerCase().match('^' + searchTextLowerCase)) {
+        list.appendChild(createOption(value, label));
+      }
     });
 
     sourceEl.parentNode.insertBefore(list, sourceEl.nextSibling);
