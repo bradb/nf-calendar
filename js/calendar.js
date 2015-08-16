@@ -181,9 +181,7 @@ var calendar = (function() {
     if (timeframe === 'week') {
       renderWeekView(table, selectedDate, numTimeslots);
     } else {
-      throw {
-        name: 'ArgumentException',
-        message: "Invalid timeframe: " + timeframe };
+      throw new Error("Invalid timeframe: " + timeframe);
     }
 
     modal.modal("appointment-modal");
