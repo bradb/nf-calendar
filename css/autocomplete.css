@@ -1,0 +1,12 @@
+ul.autocomplete-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.autocomplete-list li {
+  list-style-position: inside;
+  border: 1px solid #cccccc;
+  margin: 0;
+  padding: 5px;
+}

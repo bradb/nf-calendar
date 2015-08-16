@@ -32,8 +32,9 @@ var autocomplete = (function () {
     }
 
     list.dataset.source = sourceEl.id;
-
     list.className = autocompleteListClassName;
+    list.style.width = sourceEl.offsetWidth.toString() + 'px';
+
     options.forEach(function (opt) {
       list.appendChild(createOption(opt[0], opt[1]));
     });
