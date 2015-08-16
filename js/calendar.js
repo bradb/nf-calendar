@@ -190,6 +190,8 @@ var calendar = (function() {
     datepicker.datepicker('datepicker', datePrefix);
     timepicker.timepicker('start-time-picker', startTimePrefix);
     timepicker.timepicker('end-time-picker', endTimePrefix);
+    autocomplete.autocomplete(
+      "event-attendee", [[1, "Jamie Oliver", 2, "Nigel Slater"]]);
 
     bindClickHandlers(table, datePrefix, startTimePrefix, endTimePrefix);
   };
