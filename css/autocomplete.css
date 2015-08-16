@@ -14,3 +14,7 @@ ul.autocomplete-list li {
 ul.autocomplete-list li:not(:first-child) {
   border-width: 0px 1px 1px 1px;
 }
+
+ul.autocomplete-list li.selected {
+  background-color: #dddddd;
+}
